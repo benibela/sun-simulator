@@ -26,5 +26,66 @@ object Form1: TForm1
       OnClick = Button1Click
       TabOrder = 0
     end
+    object Button2: TButton
+      Left = 83
+      Height = 25
+      Top = 4
+      Width = 77
+      Caption = 'cancel'
+      OnClick = Button2Click
+      TabOrder = 1
+    end
+  end
+  object Panel1: TPanel
+    Height = 174
+    Top = 352
+    Width = 712
+    Align = alBottom
+    ClientHeight = 174
+    ClientWidth = 712
+    TabOrder = 1
+    OnResize = Panel1Resize
+    object PaintBox1: TPaintBox
+      AnchorSideTop.Control = Panel1
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 37
+      Height = 154
+      Top = 10
+      Width = 147
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Around = 10
+    end
+    object PaintBox2: TPaintBox
+      AnchorSideLeft.Control = PaintBox1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 194
+      Height = 154
+      Top = 10
+      Width = 105
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Top = 10
+      BorderSpacing.Bottom = 10
+      OnPaint = PaintBox2Paint
+      OnResize = PaintBox2Resize
+    end
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Height = 5
+    Top = 347
+    Width = 712
+    Align = alBottom
+    ResizeAnchor = akBottom
+  end
+  object Timer1: TTimer
+    Interval = 10000
+    OnTimer = Timer1Timer
+    OnStartTimer = Timer1StartTimer
+    left = 32
+    top = 65
   end
 end

@@ -8,7 +8,8 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms
-  { you can add units after this }, maingui, LResources, colorDiagramModels;
+  { you can add units after this }, maingui, LResources, colorDiagramModels,
+  monitorControl;
 
 {$IFDEF WINDOWS}{$R sunSimulator.rc}{$ENDIF}
 

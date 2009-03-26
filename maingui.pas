@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs, diagram,
-  ExtCtrls, StdCtrls,colorDiagramModels;
+  ExtCtrls, StdCtrls,colorDiagramModels,monitorControl;
 
 type
 
@@ -14,12 +14,25 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
+    Button2: TButton;
+    PaintBox1: TPaintBox;
+    PaintBox2: TPaintBox;
+    Panel1: TPanel;
     Panel5: TPanel;
+    Splitter1: TSplitter;
+    Timer1: TTimer;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure ChangeSingleColors(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure CurModelChanged(Sender: TObject);
+    procedure modelManagerModelModified(Sender: TObject);
+    procedure PaintBox2Paint(Sender: TObject);
+    procedure PaintBox2Resize(Sender: TObject);
+    procedure Panel1Resize(Sender: TObject);
+    procedure Timer1StartTimer(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { private declarations }
     procedure changeModel(viewPanel:TPanel);
@@ -38,6 +51,7 @@ implementation
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   modelManager:=TModelColorModelManager.create;
+  modelManager.OnModelModified:=@modelManagerModelModified;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -48,6 +62,38 @@ end;
 procedure TForm1.CurModelChanged(Sender: TObject);
 begin
   changeModel (TComponent(sender).owner as tpanel);
+end;
+
+procedure TForm1.modelManagerModelModified(Sender: TObject);
+begin
+  Timer1Timer(timer1);
+end;
+
+procedure TForm1.PaintBox2Paint(Sender: TObject);
+begin
+  modelManager.mapper.draw(PaintBox2.Width,PaintBox2.Height,PaintBox2.Canvas);
+end;
+
+procedure TForm1.PaintBox2Resize(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.Panel1Resize(Sender: TObject);
+begin
+  PaintBox1.Width:=PaintBox1.Height;
+  PaintBox2.Width:=PaintBox2.Height;
+end;
+
+procedure TForm1.Timer1StartTimer(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  monitorControlInstance.setTo(modelManager.getMapper(now));
+  modelManager.mapper.draw(PaintBox2.Width,PaintBox2.Height,PaintBox2.Canvas);
 end;
 
 procedure TForm1.changeModel(viewPanel: TPanel);
@@ -134,6 +180,13 @@ begin
     OnClick:=@ChangeSingleColors;
     checked:=modelManager.selectModel(view,cfDay,crGamma).showSingleColors;
   end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  timer1.Enabled:=false;
+  monitorControlInstance.reset;
+  Close;
 end;
 
 procedure TForm1.ChangeSingleColors(Sender: TObject);
