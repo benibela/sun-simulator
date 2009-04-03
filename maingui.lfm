@@ -1,21 +1,21 @@
 object Form1: TForm1
-  Left = 290
+  Left = 332
   Height = 557
   Top = 159
-  Width = 712
+  Width = 670
   Caption = 'Form1'
   ClientHeight = 557
-  ClientWidth = 712
+  ClientWidth = 670
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '0.9.27'
   object Panel5: TPanel
     Height = 31
     Top = 526
-    Width = 712
+    Width = 670
     Align = alBottom
     ClientHeight = 31
-    ClientWidth = 712
+    ClientWidth = 670
     TabOrder = 0
     object Button1: TButton
       Left = 4
@@ -35,14 +35,32 @@ object Form1: TForm1
       OnClick = Button2Click
       TabOrder = 1
     end
+    object Button3: TButton
+      Left = 260
+      Height = 25
+      Top = 4
+      Width = 75
+      Caption = 'save'
+      OnClick = Button3Click
+      TabOrder = 2
+    end
+    object autopreview: TCheckBox
+      Left = 472
+      Height = 17
+      Top = 4
+      Width = 191
+      Anchors = [akTop, akRight]
+      Caption = 'Automatical preview on mouse move'
+      TabOrder = 3
+    end
   end
   object Panel1: TPanel
     Height = 174
     Top = 352
-    Width = 712
+    Width = 670
     Align = alBottom
     ClientHeight = 174
-    ClientWidth = 712
+    ClientWidth = 670
     TabOrder = 1
     OnResize = Panel1Resize
     object PaintBox1: TPaintBox
@@ -55,6 +73,8 @@ object Form1: TForm1
       Width = 147
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Around = 10
+      OnClick = PaintBox1Click
+      OnPaint = PaintBox1Paint
     end
     object PaintBox2: TPaintBox
       AnchorSideLeft.Control = PaintBox1
@@ -77,9 +97,26 @@ object Form1: TForm1
     Cursor = crVSplit
     Height = 5
     Top = 347
-    Width = 712
+    Width = 670
     Align = alBottom
     ResizeAnchor = akBottom
+  end
+  object Panel2: TPanel
+    Height = 347
+    Width = 670
+    Align = alClient
+    ClientHeight = 347
+    ClientWidth = 670
+    TabOrder = 3
+    object Button4: TButton
+      Left = 244
+      Height = 25
+      Top = 289
+      Width = 75
+      Caption = 'Button4'
+      OnClick = Button4Click
+      TabOrder = 0
+    end
   end
   object Timer1: TTimer
     Interval = 10000
@@ -87,5 +124,21 @@ object Form1: TForm1
     OnStartTimer = Timer1StartTimer
     left = 32
     top = 65
+  end
+  object TrayIcon1: TTrayIcon
+    PopUpMenu = PopupMenu1
+    left = 376
+    top = 408
+  end
+  object PopupMenu1: TPopupMenu
+    left = 415
+    top = 408
+    object MenuItem2: TMenuItem
+      Caption = 'Settings'
+    end
+    object MenuItem1: TMenuItem
+      Caption = 'Close'
+      OnClick = MenuItem1Click
+    end
   end
 end

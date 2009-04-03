@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs, diagram,
-  ExtCtrls, StdCtrls,colorDiagramModels,monitorControl;
+  ExtCtrls, StdCtrls,colorDiagramModels,monitorControl, Menus;
 
 type
 
@@ -15,24 +15,39 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    autopreview: TCheckBox;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
     PaintBox1: TPaintBox;
     PaintBox2: TPaintBox;
     Panel1: TPanel;
+    Panel2: TPanel;
     Panel5: TPanel;
+    PopupMenu1: TPopupMenu;
     Splitter1: TSplitter;
     Timer1: TTimer;
+    TrayIcon1: TTrayIcon;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
     procedure ChangeSingleColors(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure CurModelChanged(Sender: TObject);
+    procedure MenuItem1Click(Sender: TObject);
     procedure modelManagerModelModified(Sender: TObject);
+    procedure PaintBox1Click(Sender: TObject);
+    procedure PaintBox1Paint(Sender: TObject);
     procedure PaintBox2Paint(Sender: TObject);
     procedure PaintBox2Resize(Sender: TObject);
     procedure Panel1Resize(Sender: TObject);
     procedure Timer1StartTimer(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure viewMouseLeave(Sender: TObject);
+    procedure viewMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
   private
     { private declarations }
     procedure changeModel(viewPanel:TPanel);
@@ -64,9 +79,25 @@ begin
   changeModel (TComponent(sender).owner as tpanel);
 end;
 
+procedure TForm1.MenuItem1Click(Sender: TObject);
+begin
+
+end;
+
 procedure TForm1.modelManagerModelModified(Sender: TObject);
 begin
-  Timer1Timer(timer1);
+  if not autopreview.checked then Timer1Timer(timer1);
+end;
+
+procedure TForm1.PaintBox1Click(Sender: TObject);
+begin
+  PaintBox1.Tag:=(PaintBox1.Tag+1) mod 2;
+  modelManager.mapper.drawTestPattern(PaintBox1.Tag, PaintBox1.Width,PaintBox1.Height,PaintBox1.Canvas);
+end;
+
+procedure TForm1.PaintBox1Paint(Sender: TObject);
+begin
+  modelManager.mapper.drawTestPattern(PaintBox1.Tag, PaintBox1.Width,PaintBox1.Height,PaintBox1.Canvas);
 end;
 
 procedure TForm1.PaintBox2Paint(Sender: TObject);
@@ -92,7 +123,34 @@ end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
-  monitorControlInstance.setTo(modelManager.getMapper(now));
+  modelManager.setTime(now);
+  monitorControlInstance.setTo(modelManager.mapper);
+  modelManager.mapper.draw(PaintBox2.Width,PaintBox2.Height,PaintBox2.Canvas);
+end;
+
+procedure TForm1.viewMouseLeave(Sender: TObject);
+begin
+  Timer1.Enabled:=true;
+  if autopreview.Checked then Timer1Timer(self);
+end;
+
+procedure TForm1.viewMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+var view:TDiagramView;
+    panel: TPanel;
+begin
+  view:=sender as TDiagramView;
+  if (x<view.Drawer.valueAreaX) or (x>view.Drawer.ValueAreaRight) or (not autopreview.Checked) then begin
+    Timer1.Enabled:=true;
+    exit;
+  end;
+  Timer1.Enabled:=false;
+  panel:=TComponent(sender).owner as tpanel;
+  if (panel.FindComponent('frequency') as TComboBox).ItemIndex=0 then
+    modelManager.setPreviewTime(now,view.Drawer.posToDataX(x),cfDay)
+   else
+    modelManager.setPreviewTime(now,view.Drawer.posToDataX(x),cfYear);
+  monitorControlInstance.setTo(modelManager.mapper);
   modelManager.mapper.draw(PaintBox2.Width,PaintBox2.Height,PaintBox2.Canvas);
 end;
 
@@ -180,6 +238,9 @@ begin
     OnClick:=@ChangeSingleColors;
     checked:=modelManager.selectModel(view,cfDay,crGamma).showSingleColors;
   end;
+
+  view.OnMouseMove:=@viewMouseMove;
+  view.onMouseLeave:=@viewMouseLeave;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -189,16 +250,26 @@ begin
   Close;
 end;
 
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  ShowMessage(modelManager.saveToString);
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+begin
+
+end;
+
 procedure TForm1.ChangeSingleColors(Sender: TObject);
 var i:longint;
 begin
   //set showSingleColors of the model of the view on the current panel
-  (((TComponent(sender).owner as tpanel).FindComponent('view') as TDiagramView).Model as TDiagramColorModel).showSingleColors:=(sender as TCheckBox).Checked;
+  modelManager.getSelectedModel((TComponent(sender).owner as tpanel).FindComponent('view') as TDiagramView).showSingleColors:=(sender as TCheckBox).Checked;
   //update all checkboxes (including other views)
   for i:=0 to ControlCount-1 do
     if controls[i] is TPanel then
       if controls[i].FindComponent('colors')<>nil then
-        (controls[i].FindComponent('colors') as TCheckBox).Checked:=(((controls[i] as tpanel).FindComponent('view') as TDiagramView).Model as TDiagramColorModel).showSingleColors;
+        (controls[i].FindComponent('colors') as TCheckBox).Checked:=modelManager.getSelectedModel((controls[i] as tpanel).FindComponent('view') as TDiagramView).showSingleColors;
 end;
 
 initialization

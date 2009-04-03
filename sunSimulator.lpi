@@ -8,7 +8,7 @@
       <TargetFileExt Value=".exe"/>
       <Icon Value="0"/>
       <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -32,12 +32,12 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="15">
+    <Units Count="27">
       <Unit0>
         <Filename Value="sunSimulator.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="sunSimulator"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="50"/>
       </Unit0>
       <Unit1>
         <Filename Value="maingui.pas"/>
@@ -45,26 +45,27 @@
         <IsPartOfProject Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="maingui"/>
-        <CursorPos X="60" Y="54"/>
-        <TopLine Value="41"/>
+        <CursorPos X="35" Y="89"/>
+        <TopLine Value="72"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="50"/>
         <Bookmarks Count="1">
-          <Item0 X="6" Y="90" ID="1"/>
+          <Item0 X="1" Y="147" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\..\..\components\pascal\data\diagram.pas"/>
         <UnitName Value="diagram"/>
-        <CursorPos X="30" Y="1383"/>
-        <TopLine Value="1367"/>
-        <EditorIndex Value="7"/>
-        <UsageCount Value="18"/>
-        <Bookmarks Count="3">
-          <Item0 X="41" Y="1862" ID="2"/>
-          <Item1 X="33" Y="559" ID="3"/>
-          <Item2 X="5" Y="410" ID="4"/>
+        <CursorPos X="1" Y="2429"/>
+        <TopLine Value="2399"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="24"/>
+        <Bookmarks Count="4">
+          <Item0 X="33" Y="691" ID="3"/>
+          <Item1 X="54" Y="507" ID="4"/>
+          <Item2 X="6" Y="2600" ID="7"/>
+          <Item3 X="3" Y="1905" ID="9"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
@@ -73,52 +74,55 @@
         <UnitName Value="TreeListView"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="6"/>
-        <UsageCount Value="18"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="P:\programming\lazarus\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
-        <CursorPos X="25" Y="1261"/>
-        <TopLine Value="1247"/>
-        <EditorIndex Value="11"/>
-        <UsageCount Value="17"/>
+        <CursorPos X="3" Y="2084"/>
+        <TopLine Value="2077"/>
+        <EditorIndex Value="14"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="P:\programming\lazarus\lcl\include\control.inc"/>
         <CursorPos X="34" Y="3646"/>
         <TopLine Value="3643"/>
-        <EditorIndex Value="12"/>
-        <UsageCount Value="17"/>
+        <EditorIndex Value="15"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="colordiagrammodels.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="colorDiagramModels"/>
-        <CursorPos X="31" Y="216"/>
-        <TopLine Value="197"/>
+        <CursorPos X="17" Y="61"/>
+        <TopLine Value="43"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="44"/>
+        <Bookmarks Count="1">
+          <Item0 X="3" Y="148" ID="1"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="P:\programming\lazarus\lcl\graphics.pp"/>
         <UnitName Value="Graphics"/>
-        <CursorPos X="3" Y="387"/>
-        <TopLine Value="373"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="14"/>
+        <CursorPos X="3" Y="156"/>
+        <TopLine Value="144"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="P:\programming\lazarus\lcl\include\wincontrol.inc"/>
         <CursorPos X="1" Y="5453"/>
         <TopLine Value="5439"/>
-        <EditorIndex Value="10"/>
-        <UsageCount Value="14"/>
+        <EditorIndex Value="13"/>
+        <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
@@ -126,27 +130,25 @@
         <UnitName Value="ExtCtrls"/>
         <CursorPos X="3" Y="420"/>
         <TopLine Value="406"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="18"/>
       </Unit9>
       <Unit10>
         <Filename Value="P:\programming\lazarus\lcl\lclproc.pas"/>
         <UnitName Value="LCLProc"/>
         <CursorPos X="1" Y="239"/>
         <TopLine Value="239"/>
-        <EditorIndex Value="9"/>
-        <UsageCount Value="13"/>
+        <EditorIndex Value="12"/>
+        <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="monitorcontrol.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="monitorControl"/>
-        <CursorPos X="18" Y="14"/>
-        <TopLine Value="5"/>
-        <EditorIndex Value="8"/>
-        <UsageCount Value="24"/>
+        <CursorPos X="13" Y="20"/>
+        <TopLine Value="3"/>
+        <EditorIndex Value="11"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
       </Unit11>
       <Unit12>
@@ -157,141 +159,225 @@
       </Unit12>
       <Unit13>
         <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\rtl\objpas\sysutils\datih.inc"/>
-        <CursorPos X="10" Y="132"/>
-        <TopLine Value="113"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="11"/>
+        <CursorPos X="10" Y="117"/>
+        <TopLine Value="99"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="17"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
         <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\rtl\objpas\sysutils\dati.inc"/>
         <CursorPos X="3" Y="129"/>
         <TopLine Value="126"/>
-        <EditorIndex Value="4"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="17"/>
         <Loaded Value="True"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\rtl\objpas\classes\classesh.inc"/>
+        <CursorPos X="3" Y="355"/>
+        <TopLine Value="344"/>
+        <EditorIndex Value="10"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\rtl\inc\objpash.inc"/>
+        <CursorPos X="21" Y="156"/>
+        <TopLine Value="144"/>
+        <EditorIndex Value="8"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\rtl\inc\objpas.inc"/>
+        <CursorPos X="26" Y="166"/>
+        <TopLine Value="147"/>
+        <EditorIndex Value="9"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\packages\fcl-image\src\fpimage.pp"/>
+        <UnitName Value="FPimage"/>
+        <CursorPos X="15" Y="320"/>
+        <TopLine Value="307"/>
+        <UsageCount Value="11"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\rtl\objpas\objpas.pp"/>
+        <UnitName Value="objpas"/>
+        <CursorPos X="19" Y="26"/>
+        <TopLine Value="9"/>
+        <UsageCount Value="11"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\packages\fcl-image\src\fpcolcnv.inc"/>
+        <CursorPos X="9" Y="33"/>
+        <TopLine Value="18"/>
+        <UsageCount Value="11"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\packages\fcl-image\src\fpcolors.inc"/>
+        <CursorPos X="1" Y="35"/>
+        <TopLine Value="16"/>
+        <UsageCount Value="11"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="P:\programming\lazarus\fpc\2.2.2\source\rtl\inc\systemh.inc"/>
+        <CursorPos X="3" Y="314"/>
+        <TopLine Value="297"/>
+        <UsageCount Value="11"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="P:\programming\lazarus\lcl\intfgraphics.pas"/>
+        <UnitName Value="IntfGraphics"/>
+        <CursorPos X="39" Y="3208"/>
+        <TopLine Value="3191"/>
+        <UsageCount Value="10"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="P:\programming\lazarus\lcl\include\lclintf.inc"/>
+        <CursorPos X="1" Y="170"/>
+        <TopLine Value="153"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="P:\programming\lazarus\lcl\include\lclintfh.inc"/>
+        <CursorPos X="10" Y="119"/>
+        <TopLine Value="102"/>
+        <UsageCount Value="10"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="P:\programming\lazarus\lcl\stdctrls.pp"/>
+        <UnitName Value="StdCtrls"/>
+        <CursorPos X="21" Y="1187"/>
+        <TopLine Value="1170"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit26>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="47" Column="43" TopLine="33"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="93" Column="49" TopLine="76"/>
       </Position1>
       <Position2>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="208" Column="5" TopLine="181"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="35" Column="22" TopLine="22"/>
       </Position2>
       <Position3>
         <Filename Value="maingui.pas"/>
-        <Caret Line="65" Column="53" TopLine="58"/>
+        <Caret Line="26" Column="26" TopLine="22"/>
       </Position3>
       <Position4>
         <Filename Value="maingui.pas"/>
-        <Caret Line="156" Column="27" TopLine="149"/>
+        <Caret Line="24" Column="28" TopLine="9"/>
       </Position4>
       <Position5>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="211" Column="59" TopLine="188"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="36" Column="47" TopLine="36"/>
       </Position5>
       <Position6>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="43" Column="1" TopLine="43"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="78" Column="3" TopLine="76"/>
       </Position6>
       <Position7>
         <Filename Value="maingui.pas"/>
-        <Caret Line="116" Column="27" TopLine="89"/>
+        <Caret Line="212" Column="7" TopLine="185"/>
       </Position7>
       <Position8>
         <Filename Value="maingui.pas"/>
-        <Caret Line="18" Column="20" TopLine="18"/>
+        <Caret Line="142" Column="23" TopLine="125"/>
       </Position8>
       <Position9>
         <Filename Value="maingui.pas"/>
-        <Caret Line="20" Column="26" TopLine="18"/>
+        <Caret Line="212" Column="19" TopLine="190"/>
       </Position9>
       <Position10>
         <Filename Value="maingui.pas"/>
-        <Caret Line="18" Column="26" TopLine="18"/>
+        <Caret Line="49" Column="47" TopLine="49"/>
       </Position10>
       <Position11>
         <Filename Value="maingui.pas"/>
-        <Caret Line="30" Column="48" TopLine="30"/>
+        <Caret Line="149" Column="27" TopLine="131"/>
       </Position11>
       <Position12>
         <Filename Value="maingui.pas"/>
-        <Caret Line="31" Column="45" TopLine="31"/>
+        <Caret Line="148" Column="15" TopLine="131"/>
       </Position12>
       <Position13>
         <Filename Value="maingui.pas"/>
-        <Caret Line="71" Column="36" TopLine="69"/>
+        <Caret Line="56" Column="18" TopLine="39"/>
       </Position13>
       <Position14>
-        <Filename Value="maingui.pas"/>
-        <Caret Line="30" Column="47" TopLine="30"/>
+        <Filename Value="colordiagrammodels.pas"/>
+        <Caret Line="183" Column="28" TopLine="168"/>
       </Position14>
       <Position15>
-        <Filename Value="maingui.pas"/>
-        <Caret Line="37" Column="15" TopLine="16"/>
+        <Filename Value="colordiagrammodels.pas"/>
+        <Caret Line="66" Column="29" TopLine="48"/>
       </Position15>
       <Position16>
-        <Filename Value="maingui.pas"/>
-        <Caret Line="88" Column="40" TopLine="81"/>
+        <Filename Value="colordiagrammodels.pas"/>
+        <Caret Line="67" Column="75" TopLine="49"/>
       </Position16>
       <Position17>
-        <Filename Value="maingui.pas"/>
-        <Caret Line="40" Column="19" TopLine="26"/>
+        <Filename Value="colordiagrammodels.pas"/>
+        <Caret Line="101" Column="5" TopLine="101"/>
       </Position17>
       <Position18>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="46" Column="12" TopLine="38"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="151" Column="62" TopLine="136"/>
       </Position18>
       <Position19>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="54" Column="68" TopLine="31"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="126" Column="57" TopLine="109"/>
       </Position19>
       <Position20>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="69" Column="17" TopLine="55"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="127" Column="51" TopLine="109"/>
       </Position20>
       <Position21>
-        <Filename Value="..\..\..\components\pascal\data\diagram.pas"/>
-        <Caret Line="112" Column="31" TopLine="112"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="149" Column="7" TopLine="132"/>
       </Position21>
       <Position22>
         <Filename Value="maingui.pas"/>
-        <Caret Line="103" Column="79" TopLine="82"/>
+        <Caret Line="150" Column="69" TopLine="134"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\..\components\pascal\data\diagram.pas"/>
-        <Caret Line="1383" Column="45" TopLine="1367"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="242" Column="8" TopLine="225"/>
       </Position23>
       <Position24>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="65" Column="17" TopLine="55"/>
+        <Filename Value="..\..\..\components\pascal\data\diagram.pas"/>
+        <Caret Line="293" Column="36" TopLine="272"/>
       </Position24>
       <Position25>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="46" Column="9" TopLine="33"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="242" Column="8" TopLine="225"/>
       </Position25>
       <Position26>
-        <Filename Value="colordiagrammodels.pas"/>
-        <Caret Line="65" Column="17" TopLine="54"/>
+        <Filename Value="maingui.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position26>
       <Position27>
         <Filename Value="maingui.pas"/>
-        <Caret Line="53" Column="34" TopLine="50"/>
+        <Caret Line="124" Column="23" TopLine="109"/>
       </Position27>
       <Position28>
         <Filename Value="maingui.pas"/>
-        <Caret Line="30" Column="58" TopLine="30"/>
+        <Caret Line="134" Column="42" TopLine="109"/>
       </Position28>
       <Position29>
         <Filename Value="maingui.pas"/>
-        <Caret Line="70" Column="4" TopLine="67"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position29>
       <Position30>
         <Filename Value="maingui.pas"/>
-        <Caret Line="97" Column="5" TopLine="94"/>
+        <Caret Line="48" Column="26" TopLine="31"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
