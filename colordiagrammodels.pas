@@ -36,11 +36,15 @@ type
   TDiagramColorModel = class (TDiagramFixedWidthCircularDataListModel)
   private
     FshowSingleColors: boolean;
+    ffreq: TModelColorFrequency;
+    frole:TModelColorRole;
     procedure SetshowSingleColors(const AValue: boolean);
   public
+    procedure resetToDefault;
     constructor create(freq: TModelColorFrequency; role:TModelColorRole) ;
     function getValue(colorName:TModelColorName; x: float):float;
     function saveToString(prefix:string): string;
+    procedure loadFromString(str: string);
   published
     property showSingleColors: boolean read FshowSingleColors write SetshowSingleColors;
   end;
@@ -50,7 +54,8 @@ type
   TModelColorModelManager = class
   private
     FOnModified: TNotifyEvent;
-    procedure SetOnModified(const AValue: TNotifyEvent);
+    FState: set of (msLoading);
+    procedure DoModelModified(sender:TObject);
     procedure setModelTime(const day, year:float);
     procedure setMarkTime(const day1, year1, day2, year2:float);
   public
@@ -64,12 +69,14 @@ type
     class procedure decodeTime(time: TDateTime; out day, year: float);
     class function encodeTime(const day, year: float):TDateTime;
 
+    function isValid:boolean;
     procedure setTime(const time: TDateTime);
     procedure setPreviewTime(const rtime: TDateTime; const oTime: float; oFreq: TModelColorFrequency);
 
     function saveToString: string;
+    procedure loadFromString(s: string);
 
-    property OnModelModified: TNotifyEvent read FOnModified write SetOnModified;
+    property OnModelModified: TNotifyEvent read FOnModified write FOnModified;
   end;
 
 
@@ -77,17 +84,16 @@ implementation
 uses IntfGraphics,FPimage;
 const FrequenceMax: array[TModelColorFrequency] of longint = (24, 365);
       RoleDefault: array[TModelColorRole] of float = (1,1,0);
+const FNAMEID: array[0..1] of string=('D','Y');
+      TNAMEID: array[0..2] of string=('G','C','B');
 
 { TModelColorModelManager }
 
-procedure TModelColorModelManager.SetOnModified(const AValue: TNotifyEvent);
-var i,j:longint;
+procedure TModelColorModelManager.DoModelModified(sender: TObject);
 begin
-  if FOnModified=AValue then exit;
-  FOnModified:=AValue;
-  for i:=0 to high(models) do for j:=0 to high(models[i]) do
-    models[i,j].onModified:=AValue;
+  if assigned(FOnModified) and not (msLoading in FState) then FOnModified(sender);
 end;
+
 
 procedure TModelColorModelManager.setModelTime(const day, year: float);
 var n:TModelColorName;
@@ -114,16 +120,16 @@ begin
   //day freq
   timeModels[0].lists[0].clear();
   timeModels[0].lists[1].clear();
-  timeModels[0].lists[0].setPoint(0,day1,0);
+  timeModels[0].lists[0].setPoint(0,day1,9999);
   if not IsNan(day2) then
-    timeModels[0].lists[1].setPoint(0,day2,0);
+    timeModels[0].lists[1].setPoint(0,day2,9999);
 
   //year freq
   timeModels[1].lists[0].clear();
   timeModels[1].lists[1].clear();
-  timeModels[1].lists[0].setPoint(0,year1,0);
+  timeModels[1].lists[0].setPoint(0,year1,9999);
   if not isNan(year2) then
-    timeModels[1].lists[1].setPoint(0,year2,0);
+    timeModels[1].lists[1].setPoint(0,year2,9999);
 end;
 
 constructor TModelColorModelManager.create;
@@ -132,6 +138,7 @@ begin
   setlength(models,2,3);
   for i:=0 to high(models) do for j:=0 to high(models[i]) do begin
     models[i,j]:=TDiagramColorModel.create(TModelColorFrequency(i),TModelColorRole(j));
+    models[i,j].onModified:=@DoModelModified;
   end;
   mapper:=TColorMapper.create;
   setlength(timeModels,2);
@@ -214,10 +221,25 @@ begin
   result:=EncodeDate(2009,1,1) + year + day/24;
 end;
 
+function TModelColorModelManager.isValid: boolean;
+var
+  k: Integer;
+  j: Integer;
+  i: Integer;
+begin
+  for i:=0 to high(models) do
+    for j:=0 to high(models[i]) do begin
+      if models[i,j].dataRows()<=0 then exit(false);
+      for k:=0 to models[i,j].dataRows()-1 do
+        if models[i,j].dataPoints(k)<2 then exit(false);
+    end;
+end;
+
 procedure TModelColorModelManager.setTime(const time: TDateTime);
 var n:TModelColorName;
     day,year:float;
 begin
+  if not isValid then exit;
   decodeTime(time,day,year);
   setModelTime(day,year);
   setMarkTime(day,year,nan,nan);
@@ -228,19 +250,18 @@ procedure TModelColorModelManager.setPreviewTime(const rtime: TDateTime;
 var n:TModelColorName;
     day,year:float;
 begin
+  if not isValid then exit;
   decodeTime(time,day,year);
   if oFreq=cfDay then begin
     setModelTime(oTime,year);
     setMarkTime(day,year,oTime,nan);
   end else begin
-    setModelTime(oTime,day);
+    setModelTime(day,oTime);
     setMarkTime(day,year,nan,oTime);
   end;
 end;
 
 function TModelColorModelManager.saveToString: string;
-const FNAMEID: array[0..1] of string=('D','Y');
-      TNAMEID: array[0..2] of string=('G','C','B');
 //saves to a very simple comma (;) separated list
 var i,j:Integer;
 begin
@@ -248,6 +269,34 @@ begin
   for i:=0 to 1 do
     for j:=0 to 2 do
       result+=models[i,j].saveToString(FNAMEID[i]+'-'+TNAMEID[j]+'-');
+end;
+
+procedure TModelColorModelManager.loadFromString(s: string);
+var sl:TStringList;
+  l: Integer;
+  id:string;
+  j: Integer;
+  i: Integer;
+begin
+  include(FState,msLoading);
+  try
+    sl:=TStringList.Create;
+    for i:=0 to 1 do
+      for j:=0 to 2 do
+        models[i,j].resetToDefault;
+    sl.Text:=s;
+    for l:=0 to sl.Count-1 do begin
+      if length(sl[l])<5 then continue;
+      id:=copy(sl[l],1,4);
+      for i:=0 to 1 do
+        for j:=0 to 2 do
+          if id=FNAMEID[i]+'-'+TNAMEID[j]+'-' then
+            models[i,j].loadFromString(copy(sl[l],5,length(sl[l])-4));
+    end;
+  finally
+    exclude(FState,msLoading);
+    sl.free;
+  end;
 end;
 
 { TDiagramColorModel }
@@ -283,20 +332,30 @@ begin
   doModified();
 end;
 
-constructor TDiagramColorModel.create(freq: TModelColorFrequency; role:TModelColorRole);
-var i:longint;
+procedure TDiagramColorModel.resetToDefault;
+var
+  i: Integer;
 begin
-  inherited create;
-  setDataRows(3);
-  Flags:=[mfEditable];
   FshowSingleColors:=true;
+  setDataRows(3);
   lists[0].color:=clRed;
   lists[1].color:=clLime;
   lists[2].color:=clBlue;
   for i:=0 to 2 do begin
-    lists[i].addPoint(0,RoleDefault[role]);
-    lists[i].addPoint(FrequenceMax[freq],RoleDefault[role]);
+    lists[i].clear();
+    lists[i].addPoint(0,RoleDefault[frole]);
+    lists[i].addPoint(FrequenceMax[ffreq],RoleDefault[frole]);
   end;
+end;
+
+constructor TDiagramColorModel.create(freq: TModelColorFrequency; role:TModelColorRole);
+var i:longint;
+begin
+  inherited create;
+  Flags:=[mfEditable];
+  ffreq:=freq;
+  frole:=role;
+  resetToDefault;
 end;
 
 function TDiagramColorModel.getValue(colorName: TModelColorName; x: float
@@ -324,6 +383,50 @@ begin
         result+=Format('-(%.5f;%.5f)',[dataX(j,i),dataY(j,i)]);
       result+=#13#10;
     end;
+  end;
+end;
+
+procedure TDiagramColorModel.loadFromString(str: string);
+  procedure scanFStr(m:longint; s:string);
+  const fmt:string='-(x;y)';
+  var n,p:longint;
+      s1:string;
+      x:float;
+  begin
+    p:=1;
+    n:=1;
+    lists[m].clear();
+    while n<=length(s) do begin
+      if (fmt[p] in ['x','y']) then begin
+        while (Length(s) > n) and (s[n] = ' ')  do inc(n);
+        s1:='';
+        while (Length(s) >= n) and
+            (s[n] in ['0'..'9', '+', '-', '.', ',', 'e', 'E']) do
+        begin
+          s1 := s1+s[n];
+          inc(n);
+        end;
+        if fmt[p]='x' then x:=StrToFloat(s1)
+        else lists[m].addPoint(x,StrToFloat(s1));
+      end else begin
+        if fmt[p]<>s[n] then raise Exception.Create('Invalid color format: '+s+#13#10'  expected: '+fmt[p]+' at position '+IntToStr(n)+' but got '+s[n]);
+        n+=1;
+      end;
+      p+=1;if p>length(fmt) then p:=1;
+    end;
+  end;
+const NAMEID: array[0..2] of string = ('R','G','B');
+var
+  i: Integer;
+begin
+  if str[1]='W' then begin
+    SetshowSingleColors(false);
+    scanFStr(0,copy(str,2,length(str)-1));
+  end else begin
+    SetshowSingleColors(true);
+    for i:=0 to 2 do
+      if NAMEID[i]=str[1] then
+        scanFStr(i,copy(str,2,length(str)-1));
   end;
 end;
 

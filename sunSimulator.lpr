@@ -14,6 +14,7 @@ uses
 {$IFDEF WINDOWS}{$R sunSimulator.rc}{$ENDIF}
 
 begin
+  Application.Title:='Sun-Simulator';
   {$I sunSimulator.lrs}
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
