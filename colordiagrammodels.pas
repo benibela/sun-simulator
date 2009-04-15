@@ -251,7 +251,7 @@ var n:TModelColorName;
     day,year:float;
 begin
   if not isValid then exit;
-  decodeTime(time,day,year);
+  decodeTime(rtime,day,year);
   if oFreq=cfDay then begin
     setModelTime(oTime,year);
     setMarkTime(day,year,oTime,nan);

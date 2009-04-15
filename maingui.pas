@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs, diagram,
-  ExtCtrls, StdCtrls,colorDiagramModels,monitorControl, Menus,XMLCfg,LCLType;
+  ExtCtrls, StdCtrls,colorDiagramModels,monitorControl, Menus,XMLCfg,LCLType,registry,menuManager,ptranslateutils;
 
 type
 
@@ -21,12 +21,15 @@ type
     Button3: TButton;
     Button4: TButton;
     CheckBox1: TCheckBox;
+    CheckBox2: TCheckBox;
     ComboBox1: TComboBox;
     Label1: TLabel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
     PaintBox1: TPaintBox;
     PaintBox2: TPaintBox;
     Panel1: TPanel;
@@ -42,6 +45,7 @@ type
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure ChangeSingleColors(Sender: TObject);
+    procedure CheckBox2Click(Sender: TObject);
     procedure ComboBox1DrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
     procedure ComboBox1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
@@ -51,6 +55,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure CurModelChanged(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure freeControlStartTimer(Sender: TObject);
@@ -65,6 +70,7 @@ type
     procedure PaintBox2Resize(Sender: TObject);
     procedure Panel1Resize(Sender: TObject);
     procedure PopupMenu1Close(Sender: TObject);
+    procedure ProfileMenuClicked(sender: TObject; selected: longint);
     procedure RemovePanel(Sender: TObject);
     procedure Timer1StartTimer(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -87,10 +93,12 @@ type
     config: TXMLConfig;
     modelManager:TModelColorModelManager;
     profileData: TStringList;
+    profileMenu: TListMenu;
   end;
 
 var
   Form1: TForm1; 
+  tr: TPascalTranslator = nil;
 
 resourcestring
   rsModified = 'modified';
@@ -111,13 +119,27 @@ implementation
 procedure TForm1.FormCreate(Sender: TObject);
 var model:longint;
     i: Integer;
+    r: TRegistry;
 begin
+  initGlobalTranslation(ExtractFilePath(ParamStr(0)),'sunSimulator');
+  initUnitTranslation('maingui',tr);
+  tr.translate(self);
   config:=TXMLConfig.Create(self);
   config.Filename:=IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)))+'sunSimulatorConfig.xml';
   autopreview.Checked:=config.GetValue('UI/autoPreview',true);
+  CheckBox2.Checked:=config.GetValue('OS/autoStart',true);
+  if CheckBox2.Checked then begin
+    r:=TRegistry.Create;
+    r.RootKey:=HKEY_CURRENT_USER;
+    r.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run',true);
+    r.WriteString('SunSimulatorAutoStart','"'+ParamStr(0)+'" --autostart');
+    r.free;
+  end;
   profileData:=TStringList.Create;
   modelManager:=TModelColorModelManager.create;
   modelManager.OnModelModified:=@modelManagerModelModified;
+  profileMenu:=TListMenu.create(MenuItem5);
+  profileMenu.OnItemClick:=@ProfileMenuClicked;
   btnProfileResetClick(nil);
   model:=config.GetValue('models/curModel',0);
   if model>profileData.Count-1 then model:=profileData.Count-1;
@@ -134,11 +156,17 @@ begin
   modelManager.Free;
   profileData.Free;
   config.free;
+
 end;
 
 procedure TForm1.CurModelChanged(Sender: TObject);
 begin
   changeModel (TComponent(sender).owner as tpanel);
+end;
+
+procedure TForm1.FormResize(Sender: TObject);
+begin
+
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -210,14 +238,30 @@ begin
 end;
 
 procedure TForm1.Panel1Resize(Sender: TObject);
+var s:longint;
 begin
+  //center x,y with max size and quadratic
+  s:=(Panel1.Width-30) div 2;
+  if Panel1.Height-20 < s then s:=Panel1.Height-20;
+  PaintBox1.Height:=s;
+  PaintBox2.Height:=s;
   PaintBox1.Width:=PaintBox1.Height;
   PaintBox2.Width:=PaintBox2.Height;
+  PaintBox1.Left:=10+(Panel1.Width-2*s-30) div 2;
+  PaintBox2.Left:=PaintBox1.Left+PaintBox1.Width+10;
+  PaintBox1.Top:=(Panel1.Height-PaintBox1.Height) div 2;
+  PaintBox2.Top:=PaintBox1.top;
 end;
 
 procedure TForm1.PopupMenu1Close(Sender: TObject);
 begin
   if WindowState=wsMinimized then Visible:=false;
+end;
+
+procedure TForm1.ProfileMenuClicked(sender: TObject; selected: longint);
+begin
+  ComboBox1.ItemIndex:=selected;
+  ComboBox1Select(nil);
 end;
 
 procedure TForm1.RemovePanel(Sender: TObject);
@@ -320,6 +364,8 @@ begin
     profileData.Add(modelManager.saveToString);
   end else profileData[ComboBox1.ItemIndex]:=modelManager.saveToString;
   curModel:=ComboBox1.ItemIndex;
+  profileMenu.update(ComboBox1.Items);
+  profileMenu.CheckedIndex:=curModel;
 end;
 procedure TForm1.Button1Click(Sender: TObject);
 var nvp, cp: tpanel;
@@ -423,6 +469,7 @@ var
   curIndex,profCount: integer;
   i: Integer;
 begin
+  curIndex:=ComboBox1.ItemIndex;
   ComboBox1.Items.Clear;
   profileData.Clear;
   profCount:=config.GetValue('profiles/count',0);
@@ -451,14 +498,19 @@ begin
     profileData.Add('');
     exit;
   end;
-  curIndex:=ComboBox1.ItemIndex;
   for i:=1 to profCount do begin
     ComboBox1.Items.Add(config.GetValue('profiles/profile'+IntToStr(i)+'/title','unnamed'));
     profileData.Add(config.GetValue('profiles/profile'+IntToStr(i)+'/data/value',''));
     //  showmessage(profileData[profileData.Count-1]);
   end;
-  ComboBox1.ItemIndex:=curIndex;
-
+  if Visible then begin
+    if curIndex>=ComboBox1.Items.Count then curIndex:=ComboBox1.Items.Count-1;
+    ComboBox1.ItemIndex:=curIndex;
+    ComboBox1Select(nil);
+  end else begin
+    profileMenu.update(ComboBox1.Items);
+    //profileMenu.CheckedIndex:=ComboBox1.ItemIndex;
+  end;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -502,6 +554,19 @@ begin
         (controls[i].FindComponent('colors') as TCheckBox).Checked:=modelManager.getSelectedModel((controls[i] as tpanel).FindComponent('view') as TDiagramView).showSingleColors;
 end;
 
+procedure TForm1.CheckBox2Click(Sender: TObject);
+var
+  r: TRegistry;
+begin
+  r:=TRegistry.Create;
+  r.RootKey:=HKEY_CURRENT_USER;
+  r.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run',true);
+  if CheckBox2.Checked then r.WriteString('SunSimulatorAutoStart','"'+ParamStr(0)+'" --autostart')
+  else r.DeleteValue('SunSimulatorAutoStart');
+  r.free;
+  config.SetValue('OS/autoStart',CheckBox2.Checked);
+end;
+
 procedure TForm1.ComboBox1DrawItem(Control: TWinControl; Index: Integer;
   ARect: TRect; State: TOwnerDrawState);
 begin   {
@@ -536,6 +601,8 @@ begin
       if controls[i].FindComponent('colors')<>nil then
         (controls[i].FindComponent('colors') as TCheckBox).Checked:=modelManager.getSelectedModel((controls[i] as tpanel).FindComponent('view') as TDiagramView).showSingleColors;
   Timer1Timer(nil);
+  profileMenu.update(ComboBox1.Items);
+  profileMenu.CheckedIndex:=ComboBox1.ItemIndex;
 end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);

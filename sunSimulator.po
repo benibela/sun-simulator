@@ -1,0 +1,125 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: maingui.rsbrightness
+msgid "Brightness"
+msgstr ""
+
+#: maingui.rscontrast
+msgid "Contrast"
+msgstr ""
+
+#: maingui.rsdaycolorgrad
+msgid "* Day color gradient"
+msgstr ""
+
+#: maingui.rsdaylightness
+msgid "* Day lightness gradient"
+msgstr ""
+
+#: maingui.rsdayyearcolor
+msgid "* Day/Year color gradient"
+msgstr ""
+
+#: maingui.rsdayyearlight
+msgid "* Day/Year lightness gradient"
+msgstr ""
+
+#: maingui.rsgamma
+msgid "Gamma"
+msgstr ""
+
+#: maingui.rsmodified
+msgid "modified"
+msgstr ""
+
+#: maingui.rsshow3colors
+msgid "Show 3 Colors"
+msgstr ""
+
+#: maingui.rswindowsdefau
+msgid "* Windows default"
+msgstr ""
+
+#: maingui.rsyeardaysetti
+msgid ""
+"Day settings\n"
+"Year settings\n"
+msgstr ""
+
+#: TFORM1.AUTOPREVIEW.CAPTION
+msgid "Automatical preview on mouse move"
+msgstr ""
+
+#: TFORM1.BTNPROFILERESET.CAPTION
+msgid "reset profiles"
+msgstr ""
+
+#: TFORM1.BTNSAVE.CAPTION
+msgid "save profiles"
+msgstr ""
+
+#: TFORM1.BUTTON1.CAPTION
+msgid "New control graph"
+msgstr ""
+
+#: TFORM1.BUTTON2.CAPTION
+msgid "reset and close"
+msgstr ""
+
+#: TFORM1.BUTTON2.HINT
+msgid "Sets the monitor to the default colors, reset the profiles and closes the window"
+msgstr ""
+
+#: TFORM1.BUTTON3.CAPTION
+msgid "close"
+msgstr ""
+
+#: TFORM1.BUTTON4.CAPTION
+msgid "minimize"
+msgstr ""
+
+#: TFORM1.CAPTION
+msgid "Sun-Simulator by Benito van der Zander, www.benibela.de"
+msgstr ""
+
+#: TFORM1.CHECKBOX1.CAPTION
+msgid "save profiles when close"
+msgstr ""
+
+#: TFORM1.CHECKBOX2.CAPTION
+msgid "auto start"
+msgstr ""
+
+#: TFORM1.COMBOBOX1.TEXT
+msgid "ComboBox1"
+msgstr ""
+
+#: TFORM1.LABEL1.CAPTION
+msgid "Profile:"
+msgstr ""
+
+#: TFORM1.MENUITEM1.CAPTION
+msgid "Close"
+msgstr ""
+
+#: TFORM1.MENUITEM2.CAPTION
+msgid "Settings"
+msgstr ""
+
+#: TFORM1.MENUITEM3.CAPTION
+msgid "Reset and close"
+msgstr ""
+
+#: TFORM1.MENUITEM4.CAPTION
+msgid "-"
+msgstr ""
+
+#: TFORM1.MENUITEM5.CAPTION
+msgid "Profiles"
+msgstr ""
+
+#: TFORM1.MENUITEM6.CAPTION
+msgid "New Item6"
+msgstr ""
+
