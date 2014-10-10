@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/../../../manageUtils.sh
 
-githubProject sun-simulator
+mirroredProject sun-simulator
 
 BASE=$HGROOT/programs/system/monitorcontrol
 
