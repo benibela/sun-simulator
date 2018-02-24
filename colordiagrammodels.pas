@@ -365,6 +365,31 @@ begin
   else exit(lineApproximationAtX(lsCubicSpline,integer(colorName),x))
 end;
 
+const ModelFormatSettings: TFormatSettings = (
+  CurrencyFormat: 1;
+  NegCurrFormat: 5;
+  ThousandSeparator: ',';
+  DecimalSeparator: '.';
+  CurrencyDecimals: 2;
+  DateSeparator: '-';
+  TimeSeparator: ':';
+  ListSeparator: ',';
+  CurrencyString: '$';
+  ShortDateFormat: 'd/m/y';
+  LongDateFormat: 'dd" "mmmm" "yyyy';
+  TimeAMString: 'AM';
+  TimePMString: 'PM';
+  ShortTimeFormat: 'hh:nn';
+  LongTimeFormat: 'hh:nn:ss';
+  ShortMonthNames: ('Jan','Feb','Mar','Apr','May','Jun',
+                    'Jul','Aug','Sep','Oct','Nov','Dec');
+  LongMonthNames: ('January','February','March','April','May','June',
+                   'July','August','September','October','November','December');
+  ShortDayNames: ('Sun','Mon','Tue','Wed','Thu','Fri','Sat');
+  LongDayNames:  ('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+  TwoDigitYearCenturyWindow: 50;
+);
+
 function TDiagramColorModel.saveToString(prefix: string): string;
 const NAMEID: array[0..2] of string = ('R','G','B');
 var i:longint;
@@ -373,14 +398,14 @@ begin
   if not FshowSingleColors then begin
     result:=prefix+'W';
     for i:=0 to dataPoints(0)-1 do
-      result+=Format('-(%.5f;%.5f)',[dataX(0,i),dataY(0,i)]);
+      result+=Format('-(%.5f;%.5f)',[dataX(0,i),dataY(0,i)], ModelFormatSettings);
     result+=#13#10;
   end else begin
     result:='';
     for j:=0 to 2 do begin
       result+=prefix+NAMEID[j];
       for i:=0 to dataPoints(j)-1 do
-        result+=Format('-(%.5f;%.5f)',[dataX(j,i),dataY(j,i)]);
+        result+=Format('-(%.5f;%.5f)',[dataX(j,i),dataY(j,i)], ModelFormatSettings);
       result+=#13#10;
     end;
   end;
@@ -403,11 +428,12 @@ procedure TDiagramColorModel.loadFromString(str: string);
         while (Length(s) >= n) and
             (s[n] in ['0'..'9', '+', '-', '.', ',', 'e', 'E']) do
         begin
-          s1 := s1+s[n];
+          if s[n] = ',' then s1 := s1 + '.'
+          else s1 := s1+s[n];
           inc(n);
         end;
-        if fmt[p]='x' then x:=StrToFloat(s1)
-        else lists[m].addPoint(x,StrToFloat(s1));
+        if fmt[p]='x' then x:=StrToFloat(s1, ModelFormatSettings)
+        else lists[m].addPoint(x,StrToFloat(s1, ModelFormatSettings));
       end else begin
         if fmt[p]<>s[n] then raise Exception.Create('Invalid color format: '+s+#13#10'  expected: '+fmt[p]+' at position '+IntToStr(n)+' but got '+s[n]);
         n+=1;
