@@ -1,3 +1,4 @@
 include programs/system/monitorcontrol
 rename programs/system/monitorcontrol .
-
+include components/lazarus/dialogs/menumanager.pas
+rename components/lazarus/dialogs/menumanager.pas menumanager.pas
