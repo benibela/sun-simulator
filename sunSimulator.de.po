@@ -49,79 +49,75 @@ msgstr ""
 "Tagesverlauf\n"
 "Jahresverlauf\n"
 
-#: TFORM1.AUTOPREVIEW.CAPTION
+#: tform1.autopreview.caption
 msgid "Automatical preview on mouse move"
 msgstr "Automatisch bei Mausbewegung aktualisieren"
 
-#: TFORM1.BTNPROFILERESET.CAPTION
+#: tform1.btnprofilereset.caption
 msgid "reset profiles"
 msgstr "zurücksetzen"
 
-#: TFORM1.BTNSAVE.CAPTION
+#: tform1.btnsave.caption
 msgid "save profiles"
 msgstr "abspeichern"
 
-#: TFORM1.BUTTON1.CAPTION
+#: tform1.button1.caption
 msgid "New control graph"
 msgstr "Neues Steuerpanel"
 
-#: TFORM1.BUTTON2.CAPTION
+#: tform1.button2.caption
 msgid "reset and close"
 msgstr "abbrechen"
 
-#: TFORM1.BUTTON2.HINT
+#: tform1.button2.hint
 msgid "Sets the monitor to the default colors, reset the profiles and closes the window"
 msgstr "Setzt die Bildschirmeinstellung zu den Standardwerten und beendet das Programm"
 
-#: TFORM1.BUTTON3.CAPTION
+#: tform1.button3.caption
 msgid "close"
 msgstr "beenden"
 
-#: TFORM1.BUTTON4.CAPTION
+#: tform1.button4.caption
 msgid "minimize"
 msgstr "minimieren"
 
-#: TFORM1.CAPTION
+#: tform1.caption
 msgid "Sun-Simulator by Benito van der Zander, www.benibela.de"
 msgstr "Sonnenlicht-Simulator von Benito van der Zander, www.benibela.de"
 
-#: TFORM1.CHECKBOX1.CAPTION
+#: tform1.checkbox1.caption
 msgid "save profiles when close"
 msgstr "Profileinstellungen beim Beenden speichern"
 
-#: TFORM1.CHECKBOX2.CAPTION
+#: tform1.checkbox2.caption
 msgid "auto start"
 msgstr "Automatisch starten"
 
-#: TFORM1.COMBOBOX1.TEXT
+#: tform1.combobox1.text
 msgid "ComboBox1"
 msgstr ""
 
-#: TFORM1.LABEL1.CAPTION
+#: tform1.label1.caption
 msgid "Profile:"
 msgstr "Profile:"
 
-#: TFORM1.MENUITEM1.CAPTION
+#: tform1.menuitem1.caption
 msgid "Close"
 msgstr "Beenden"
 
-#: TFORM1.MENUITEM2.CAPTION
+#: tform1.menuitem2.caption
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: TFORM1.MENUITEM3.CAPTION
+#: tform1.menuitem3.caption
 msgid "Reset and close"
 msgstr "Abbrechen"
 
-#: TFORM1.MENUITEM4.CAPTION
-msgid "-"
-msgstr "-"
-
-#: TFORM1.MENUITEM5.CAPTION
+#: tform1.menuitem5.caption
 msgid "Profiles"
 msgstr "Profile"
 
-#: TFORM1.MENUITEM6.CAPTION
+#: tform1.menuitem6.caption
 msgid "New Item6"
 msgstr ""
 
